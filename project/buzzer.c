@@ -34,7 +34,7 @@ void buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k resu
 
 void makeSound()
 {
-  char sound[] = "ECG";
+  char sound[] = "sans";
   static int i = 0;
   char length = sound[i];
   switch(length)
