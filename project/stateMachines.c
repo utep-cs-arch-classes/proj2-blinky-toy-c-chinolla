@@ -38,37 +38,6 @@ char toggle_green()	/* only toggle green if red is on!  */
 }
 
 
-void state_advance()		/* alternate between toggling red & green */
-{
-  char changed = 0;  
-
-  static enum {R=0, G=1} color = G;
-  switch (s)
-    {
-    case 0:
-      red_on = 1;
-      green_on = 1;
-      changed = 1;
-      break;
-    case 1:
-      testdimLights();
-      changed = 1;
-      break;
-    case 2:
-      changed = toggle_both();
-      makeSound();
-      break;
-    case 3:
-      changed = turn_off();
-      buzzer_set_period(0);
-      break;
-    }
-     
-
-  led_changed = changed;
-  led_update();
-}
-
 
 char toggle_both()
 {
@@ -130,10 +99,10 @@ void dimtwo()
       break;
     case 1:
       red_on = 0;
-      dimS = 2:
+      dimS = 2;
       break;
     case 2:
-      red_on = 1:
+      red_on = 1;
       dimS = 3;
       break;
     case 3:
@@ -152,7 +121,7 @@ void dimthree()
   switch(dimS)
     {
     case 0:
-      red_on = 1:
+      red_on = 1;
       dimS = 1;
       break;
     case 1:
@@ -177,6 +146,7 @@ void dimLights()
   static char dimS = 0;
   switch(dimS)
     {
+    case 0:
       dimone();
       dimS = 1;
       break;
@@ -198,7 +168,7 @@ void testdimLights()
     {
     case 0:
       red_on = 1;
-      green_on = 1:
+      green_on = 1;
       state = 1;
       break;
     case 1:
@@ -208,5 +178,32 @@ void testdimLights()
       break;
     }
   led_changed = 1;
+  led_update();
+}
+
+
+void state_advance()
+{
+  char changed = 0;
+  switch(switch_state_down)
+    {
+    case 1:
+      red_on = 1;
+      green_on = 1;
+      changed = 1;
+      break;
+    case 2:
+      changed = toggle_both();
+      makeSound();
+      break;
+    case 3:
+      testdimLights();
+      changed = 1;
+      break;
+    case 4:
+      buzzer_set_period(0);
+      break;
+	}
+  led_changed = changed;
   led_update();
 }
